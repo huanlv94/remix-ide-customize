@@ -2,7 +2,6 @@
 var yo = require('yo-yo')
 var javascriptserialize = require('javascript-serialize')
 var jsbeautify = require('js-beautify')
-var ethers = require('ethers')
 var type = require('component-type')
 var vm = require('vm')
 var EventManager = require('../../lib/events')
@@ -683,7 +682,6 @@ function domTerminalFeatures (self, scopedCommands) {
   return {
     compilers: self._opts.compilers,
     swarmgw,
-    ethers,
     remix: self._components.cmdInterpreter,
     web3: new Web3(executionContext.web3().currentProvider),
     console: {
