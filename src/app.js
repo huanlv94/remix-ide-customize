@@ -26,7 +26,7 @@ var executionContext = require('./execution-context')
 var FilePanel = require('./app/panels/file-panel')
 var EditorPanel = require('./app/panels/editor-panel')
 var RighthandPanel = require('./app/panels/righthand-panel')
-var examples = require('./app/editor/example-contracts')
+// var examples = require('./app/editor/example-contracts')
 var modalDialogCustom = require('./app/ui/modal-dialog-custom')
 var TxLogger = require('./app/execution/txLogger')
 var Txlistener = remixLib.execution.txListener
@@ -43,7 +43,6 @@ const CompileTab = require('./app/tabs/compile-tab')
 const SettingsTab = require('./app/tabs/settings-tab')
 const AnalysisTab = require('./app/tabs/analysis-tab')
 const DebuggerTab = require('./app/tabs/debugger-tab')
-const SupportTab = require('./app/tabs/support-tab')
 const TestTab = require('./app/tabs/test-tab')
 const RunTab = require('./app/tabs/run-tab')
 
@@ -161,16 +160,15 @@ class App {
     registry.put({api: self._components.filesProviders, name: 'fileproviders'})
 
     self._view = {}
-
     self.data = {
       _layout: {
         right: {
           offset: self._components.config.get('right-offset') || 400,
-          show: true
+          show: false
         }, // @TODO: adapt sizes proportionally to browser window size
         left: {
           offset: self._components.config.get('left-offset') || 200,
-          show: true
+          show: false
         }
       }
     }
@@ -285,9 +283,9 @@ function run () {
     toolTip('You are using an `https` connection. Please switch to `http` if you are using Remix against an `http Web3 provider` or allow Mixed Content in your browser.')
   }
   // Oops! Accidentally trigger refresh or bookmark.
-  window.onbeforeunload = function () {
-    return 'Are you sure you want to leave?'
-  }
+  // window.onbeforeunload = function () {
+  //   return 'Are you sure you want to leave?'
+  // }
 
   registry.put({api: msg => self._components.editorpanel.logHtmlMessage(msg), name: 'logCallback'})
 
@@ -424,13 +422,8 @@ function run () {
     settings: new SettingsTab(self._components.registry),
     analysis: new AnalysisTab(registry),
     debug: new DebuggerTab(),
-    support: new SupportTab(),
     test: new TestTab(self._components.registry, compileTab)
   }
-
-  registry.get('app').api.event.register('tabChanged', (tabName) => {
-    if (tabName === 'Support') tabs.support.loadTab()
-  })
 
   let transactionContextAPI = {
     getAddress: (cb) => {
@@ -470,16 +463,16 @@ function run () {
   var loadingFromGist = self.loadFromGist(queryParams.get())
   if (!loadingFromGist) {
     // insert ballot contract if there are no files to show
-    self._components.filesProviders['browser'].resolveDirectory('browser', (error, filesList) => {
-      if (error) console.error(error)
-      if (Object.keys(filesList).length === 0) {
-        if (!self._components.filesProviders['browser'].set(examples.ballot.name, examples.ballot.content)) {
-          modalDialogCustom.alert('Failed to store example contract in browser. Remix will not work properly. Please ensure Remix has access to LocalStorage. Safari in Private mode is known not to work.')
-        } else {
-          self._components.filesProviders['browser'].set(examples.ballot_test.name, examples.ballot_test.content)
-        }
-      }
-    })
+    // self._components.filesProviders['browser'].resolveDirectory('browser', (error, filesList) => {
+    //   if (error) console.error(error)
+    //   if (Object.keys(filesList).length === 0) {
+    //     if (!self._components.filesProviders['browser'].set(examples.ballot.name, examples.ballot.content)) {
+    //       modalDialogCustom.alert('Failed to store example contract in browser. Remix will not work properly. Please ensure Remix has access to LocalStorage. Safari in Private mode is known not to work.')
+    //     } else {
+    //       self._components.filesProviders['browser'].set(examples.ballot_test.name, examples.ballot_test.content)
+    //     }
+    //   }
+    // })
   }
 
   // Open last opened file

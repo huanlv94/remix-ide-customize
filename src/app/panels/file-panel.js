@@ -76,15 +76,9 @@ function filepanel (localRegistry) {
   function remixdDialog () {
     return yo`
       <div class=${css.dialog}>
-        <div class=${css.dialogParagraph}>Interact with your file system from Remix. Click connect and find shared folder in the Remix file explorer (under localhost).
-          Before you get started, check out <a target="_blank" href="https://remix.readthedocs.io/en/latest/tutorial_remixd_filesystem.html">Tutorial_remixd_filesystem</a>
-          to find out how to run Remixd.
+        <div class=${css.dialogParagraph}>
+          Hello from Akachain.!
         </div>
-        <div class=${css.dialogParagraph}>Connection will start a session between <em>${window.location.href}</em> and your local file system <i>ws://127.0.0.1:65520</i>
-          so please make sure your system is secured enough (port 65520 neither opened nor forwarded).
-          <i class="fa fa-link"></i> will show you current connection status.
-        </div>
-        <div class=${css.dialogParagraph}>This feature is still in Alpha, so we recommend you to keep a copy of the shared folder.</div>
       </div>
     `
   }
@@ -382,7 +376,7 @@ function filepanel (localRegistry) {
   // ------------------ copy files --------------
 
   function copyFiles () {
-    modalDialogCustom.prompt(null, 'To which other remix-ide instance do you want to copy over all files?', 'https://remix.ethereum.org', (target) => {
+    modalDialogCustom.prompt(null, 'To which other akc-ide instance do you want to copy over all files?', 'https://dev.akachain.io', (target) => {
       doCopy(target)
     })
     function doCopy (target) {

@@ -119,16 +119,6 @@ module.exports = class SettingsTab {
         </div>
       </div>`
     self._view.config.plugins = yo`<div></div>`
-    self._view.config.plugin = yo`
-      <div class="${css.info}">
-        <div class=${css.title}>Plugin <i title="This section is still under heavy development, please use it carefully" class="${css.icon} fa fa-exclamation-triangle" aria-hidden="true"></i> </div>
-        <div class="${css.crowNoFlex}">
-          <div>Load plugin from JSON description: </div>
-          ${self._view.pluginInput}
-          <input onclick=${onloadPluginJson} type="button" value="Load" class="${css.initPlugin}">
-          ${self._view.config.plugins}
-        </div>
-      </div>`
     self._view.el = yo`
       <div class="${css.settingsTabView}" id="settingsView">
         ${self._view.config.general}
@@ -172,18 +162,6 @@ module.exports = class SettingsTab {
         self._view.plugins[name].el.parentNode.removeChild(self._view.plugins[name].el)
         delete self._view.plugins[name]
       }
-    }
-    function onloadPluginJson (event) {
-      try {
-        var json = JSON.parse(self._view.pluginInput.value)
-      } catch (e) {
-        return tooltip('cannot parse the plugin definition to JSON')
-      }
-      var savedPlugin = getSavedPlugin()
-      if (self._view.plugins[json.title]) return tooltip('Plugin already loaded')
-      savedPlugin[json.title] = json
-      setSavedPlugin(savedPlugin)
-      loadPlugins([json], {removable: true})
     }
 
     function onchangeGenerateContractMetadata (event) {
